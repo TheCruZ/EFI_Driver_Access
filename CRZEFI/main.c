@@ -116,6 +116,8 @@ RunCommand(MemoryCommand* cmd)
 				
 			
 			*(ptr64*)resultAddr = MCopyVirtualMemory(SrcProc, src_address, DstProc, dest_address, size, 1, &size_out);
+			
+			//NOTE: dereference SrcProc and DstProc or will be a big leak on reference count
 		}
 		return EFI_SUCCESS;
 	}
@@ -145,6 +147,8 @@ RunCommand(MemoryCommand* cmd)
 		
 		//Find process Base Address
 		*(ptr64*)resultAddr = (ptr64)GetBaseAddress(ProcessPtr); //Return Base Address
+		
+		//NOTE: dereference ProcessPtr or will be a big leak on reference count
 		return EFI_SUCCESS;
 	}
 
