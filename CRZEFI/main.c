@@ -206,23 +206,23 @@ SetVirtualAddressMapEvent(
 	)
 {  
 	// Convert orignal SetVariable address
-	RT->ConvertPointer(0, &oSetVariable);
+	RT->ConvertPointer(0, (VOID**)&oSetVariable);
 
 	// Convert all other addresses
-	RT->ConvertPointer(0, &oGetTime);
-	RT->ConvertPointer(0, &oSetTime);
-	RT->ConvertPointer(0, &oGetWakeupTime);
-	RT->ConvertPointer(0, &oSetWakeupTime);
-	RT->ConvertPointer(0, &oSetVirtualAddressMap);
-	RT->ConvertPointer(0, &oConvertPointer);
-	RT->ConvertPointer(0, &oGetVariable);
-	RT->ConvertPointer(0, &oGetNextVariableName);
+	RT->ConvertPointer(0, (VOID**)&oGetTime);
+	RT->ConvertPointer(0, (VOID**)&oSetTime);
+	RT->ConvertPointer(0, (VOID**)&oGetWakeupTime);
+	RT->ConvertPointer(0, (VOID**)&oSetWakeupTime);
+	RT->ConvertPointer(0, (VOID**)&oSetVirtualAddressMap);
+	RT->ConvertPointer(0, (VOID**)&oConvertPointer);
+	RT->ConvertPointer(0, (VOID**)&oGetVariable);
+	RT->ConvertPointer(0, (VOID**)&oGetNextVariableName);
 	//RT->ConvertPointer(0, &oSetVariable);
-	RT->ConvertPointer(0, &oGetNextHighMonotonicCount);
-	RT->ConvertPointer(0, &oResetSystem);
-	RT->ConvertPointer(0, &oUpdateCapsule);
-	RT->ConvertPointer(0, &oQueryCapsuleCapabilities);
-	RT->ConvertPointer(0, &oQueryVariableInfo);
+	RT->ConvertPointer(0, (VOID**)&oGetNextHighMonotonicCount);
+	RT->ConvertPointer(0, (VOID**)&oResetSystem);
+	RT->ConvertPointer(0, (VOID**)&oUpdateCapsule);
+	RT->ConvertPointer(0, (VOID**)&oQueryCapsuleCapabilities);
+	RT->ConvertPointer(0, (VOID**)&oQueryVariableInfo);
 	
 	// Convert runtime services pointer
 	RtLibEnableVirtualMappings();
@@ -378,7 +378,7 @@ efi_main(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable)
 	// Hook all the other runtime services functions
 	oGetTime = (EFI_GET_TIME)SetServicePointer(&RT->Hdr, (VOID**)&RT->GetTime, (VOID**)&HookedGetTime);
 	oSetTime = (EFI_SET_TIME)SetServicePointer(&RT->Hdr, (VOID**)&RT->SetTime, (VOID**)&HookedSetTime);
-	oGetWakeupTime = (EFI_SET_TIME)SetServicePointer(&RT->Hdr, (VOID**)&RT->GetWakeupTime, (VOID**)&HookedGetWakeupTime);
+	oGetWakeupTime = (EFI_GET_WAKEUP_TIME)SetServicePointer(&RT->Hdr, (VOID**)&RT->GetWakeupTime, (VOID**)&HookedGetWakeupTime);
 	oSetWakeupTime = (EFI_SET_WAKEUP_TIME)SetServicePointer(&RT->Hdr, (VOID**)&RT->SetWakeupTime, (VOID**)&HookedSetWakeupTime);
 	oSetVirtualAddressMap = (EFI_SET_VIRTUAL_ADDRESS_MAP)SetServicePointer(&RT->Hdr, (VOID**)&RT->SetVirtualAddressMap, (VOID**)&HookedSetVirtualAddressMap);
 	oConvertPointer = (EFI_CONVERT_POINTER)SetServicePointer(&RT->Hdr, (VOID**)&RT->ConvertPointer, (VOID**)&HookedConvertPointer);
